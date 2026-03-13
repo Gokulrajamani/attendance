@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Company Attendance</title>
+</head>
+
+<body style="text-align:center;font-family:Arial;margin-top:100px;">
+
+<h2>Company Attendance System</h2>
+
+<button onclick="checkIn()" style="padding:20px;font-size:20px;">
+CHECK-IN
+</button>
+
+<p id="status"></p>
+
+<script>
+
+function checkIn(){
+
+document.getElementById("status").innerHTML="Getting location...";
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+const latitude = position.coords.latitude;
+const longitude = position.coords.longitude;
+
+const employeeId = "EMP001";
+
+const time = new Date().toLocaleString();
+
+const device = navigator.userAgent;
+
+fetch("YOUR_WEBHOOK_URL",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+employee_id: employeeId,
+time: time,
+latitude: latitude,
+longitude: longitude,
+device: device
+})
+
+});
+
+document.getElementById("status").innerHTML="Attendance Recorded";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
